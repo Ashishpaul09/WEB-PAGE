@@ -12,15 +12,15 @@ const FooterSection = () => {
         <div>
           <h3 className="text-xl font-semibold mb-4">Have a Question?</h3>
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19838.305594168525!2d0.012083720194143665!3d51.4060257111216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a84316e1a9f3%3A0x98a7c3f3a0d07052!2sBromley!5e0!3m2!1sen!2sin!4v1708523456789!5m2!1sen!2sin"
-            width="100%"
-            height="250"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-            title="location"
-            className="rounded-lg"
-          ></iframe>
+           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14014.123456789!2d77.0568685!3d28.45797!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19f4c69f1861%3A0x2239c61286ea8303!2sOcus%20Quantum%2C%20Sector%2051%2C%20Gurugram%2C%20Haryana%20122003%2C%20India!5e0!3m2!1sen!2sin!4v1610000000000!5m2!1sen!2sin"
+           width="100%"
+           height="250"
+           style={{ border: 0 }}
+           allowFullScreen=""
+           loading="lazy"
+           title="location"
+           className="rounded-lg"
+        ></iframe>
           <div className="mt-4 space-y-2">
             <div className="flex items-center gap-2">
               <MdPhone className="text-xl" />

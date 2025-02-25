@@ -14,7 +14,7 @@ const ImageCarousel = () => {
       ease: "easeInOut",
       onUpdate: (latest) => setCurrentSlide(Math.floor(latest)),
     });
-    return controls.stop;
+    return () => controls.stop(); // Proper cleanup
   }, [currentSlide, slideMotion]);
 
   const settings = {
@@ -36,6 +36,31 @@ const ImageCarousel = () => {
     ],
   };
 
+  // Funny animation variants
+  const slideVariants = {
+    enter: {
+      x: "150%", // Fly in from way off-screen
+      opacity: 0,
+      scale: 0.5, // Start tiny
+      rotate: Math.random() * 360 - 180, // Random wild spin
+      transition: { type: "spring", stiffness: 200, damping: 10 }, // Wobbly spring
+    },
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      rotate: 0,
+      transition: { type: "spring", stiffness: 150, damping: 8 }, // Bouncy landing
+    },
+    exit: {
+      x: "-150%", // Zoom off-screen
+      opacity: 0,
+      scale: 1.5, // Grow huge as it leaves
+      rotate: Math.random() * 360 - 180, // Another wild spin
+      transition: { duration: 0.6, ease: "backIn" }, // Exaggerated exit
+    },
+  };
+
   const images = [
     "/images/img1.jpeg",
     "/images/img2.jpg",
@@ -55,39 +80,64 @@ const ImageCarousel = () => {
         ⭐ STAR PERFORMER OF THE WEEK ⭐
       </h2>
 
-      {/* ✅ Real-time animated counter */}
+      {/* Real-time animated counter with a goofy twist */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ type: "spring", stiffness: 300, damping: 10 }}
         className="text-center text-lg font-semibold text-gray-600 mb-4"
       >
         Showing{" "}
         <motion.span
           className="text-pink-500 text-2xl"
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          animate={{ scale: [1, 1.3, 1], rotate: [0, 10, -10, 0] }}
+          transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 1 }}
         >
           {currentSlide}
         </motion.span>{" "}
         of{" "}
-        <span className="text-purple-500 text-2xl">{images.length}</span> performers
+        <motion.span
+          className="text-purple-500 text-2xl"
+          animate={{ y: [0, -5, 0] }}
+          transition={{ duration: 0.3, repeat: Infinity, repeatDelay: 0.7 }}
+        >
+          {images.length}
+        </motion.span>{" "}
+        performers
       </motion.div>
 
       <Slider {...settings}>
         {images.map((img, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            whileHover={{ scale: 1.05 }}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            whileHover={{
+              scale: 1.2, // Big goofy pop
+              rotate: Math.random() * 20 - 10, // Random tilt
+              transition: { type: "spring", stiffness: 400, damping: 15 }, // Wobble
+            }}
+            whileTap={{
+              scale: 0.8, // Squash down
+              rotate: Math.random() * 40 - 20, // Wild spin
+              transition: { duration: 0.2, ease: "easeOut" },
+            }}
             className="p-4 flex justify-center items-center bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 rounded-2xl shadow-2xl h-[260px] transition-all duration-500"
           >
-            <img
+            <motion.img
               src={img}
               alt={`Slide ${index + 1}`}
-              className="w-full max-w-[350px] h-full object-cover rounded-xl shadow-lg transition-transform duration-500"
+              className="w-full max-w-[350px] h-full object-cover rounded-xl shadow-lg"
+              animate={{
+                rotate: [0, 5, -5, 0], // Gentle wobble while idle
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             />
           </motion.div>
         ))}
